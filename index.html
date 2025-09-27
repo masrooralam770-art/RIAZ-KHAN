@@ -1,1 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RIAZ KHAN DATABASE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobile responsive -->
+  <style>
+    /* General page theme */
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298); /* deep blue theme */
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #f1f1f1;
+    }
 
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #ffdd57;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
+    /* Input and button styles */
+    input, button, a.btn {
+      padding: 12px 15px;
+      margin: 8px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    input {
+      width: 90%;
+      max-width: 320px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      backdrop-filter: blur(12px);
+    }
+    input::placeholder {
+      color: #bbb;
+    }
+
+    button, a.btn {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b); /* pink-red gradient */
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+    button:hover, a.btn:hover {
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    }
+
+    /* Buttons container */
+    .links {
+      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Results styling */
+    #results {
+      width: 100%;
+      max-width: 650px;
+      margin-top: 25px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 14px 0;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .head {
+      font-weight: bold;
+      color: #ffdd57;
+    }
+
+    p { margin: 6px 0; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h2>📱 YAR BASH DATA BASE</h2>
+  <input type="text" id="num" placeholder="Enter phone number">
+  <button onclick="searchNumber()">Search</button>
+
+  <!-- Extra Buttons -->
+  <div class="links">
+    <a href="https://www.riazkhan.com" target="_blank" class="btn">🌐 SMM Panel</a>
+    <a href="https://yarbash" target="_blank" class="btn">💬 WhatsApp Group</a>
+  </div>
+
+  <div id="results"></div>
+
+  <script>
+    async function searchNumber() {
+      const num = document.getElementById("num").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "⏳ Loading...";
+
+      if (!num) {
+        alert("Please enter a number!");
+        resultsDiv.innerHTML = "";
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://www.3patticenter.com/famofc/api/database.php?num=${encodeURIComponent(num)}`);
+        const data = await response.json();
+
+        if (data.status !== "success") {
+          resultsDiv.innerHTML = `<p style="color:#ffdd57;">❌ ${data.message}</p>`;
+          return;
+        }
+
+        resultsDiv.innerHTML = "";
+        data.data.forEach(record => {
+          let card = `<div class="card">`;
+          for (let key in record) {
+            card += `<p><span class="head">${key}:</span> ${record[key]}</p>`;
+          }
+          card += `</div>`;
+          resultsDiv.innerHTML += card;
+        });
+
+      } catch (error) {
+        resultsDiv.innerHTML = `<p style="color:#ffdd57;">⚠️ Error: ${error.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
